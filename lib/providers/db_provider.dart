@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:cpims_mobile/Models/case_load_model.dart';
 import 'package:cpims_mobile/Models/form_metadata_model.dart';
 import 'package:cpims_mobile/Models/statistic_model.dart';
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:cpims_mobile/providers/unapproved_cpt_provider.dart';
 import 'package:cpims_mobile/Models/unapproved_form_1_model.dart';
 import 'package:cpims_mobile/providers/cpara/unapproved_cpara_service.dart';
@@ -25,7 +26,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
 import '../Models/caseplan_form_model.dart';
-import '../constants.dart';
+import '../constants.dart' as consts;
 import '../screens/forms/form1a/new/form_one_a.dart';
 import '../screens/forms/hiv_assessment/unapproved/hiv_risk_assessment_form_model.dart';
 import '../services/metadata_service.dart';
@@ -709,7 +710,7 @@ class LocalDb {
         var accessToken = prefs.getString('access');
         String bearerAuth = "Bearer $accessToken";
 
-        var updateUpstreamEndpoint = "${cpimsApiUrl}mobile/record_saved";
+        var updateUpstreamEndpoint = "${cpimsProdApiUrl}mobile/record_saved";
         var response = await dio.post(updateUpstreamEndpoint,
             data: {"record_id": uuid, "saved": 1, "form_type": "hrs"},
             options: Options(headers: {"Authorization": bearerAuth}));
@@ -1025,7 +1026,7 @@ class LocalDb {
         var accessToken = prefs.getString('access');
         String bearerAuth = "Bearer $accessToken";
 
-        var updateUpstreamEndpoint = "${cpimsApiUrl}mobile/record_saved";
+        var updateUpstreamEndpoint = "${cpimsProdApiUrl}mobile/record_saved";
         var response = await dio.post(updateUpstreamEndpoint,
             data: {"record_id": uuid, "saved": 1, "form_type": "hmf"},
             options: Options(headers: {"Authorization": bearerAuth}));
@@ -1456,7 +1457,7 @@ class LocalDb {
         var accessToken = prefs.getString('access');
         String bearerAuth = "Bearer $accessToken";
 
-        var updateUpstreamEndpoint = "${cpimsApiUrl}mobile/record_saved";
+        var updateUpstreamEndpoint = "${cpimsProdApiUrl}mobile/record_saved";
         var response = await dio.post(updateUpstreamEndpoint,
             data: {
               "record_id": id,
@@ -2336,7 +2337,7 @@ class LocalDb {
         var prefs = await SharedPreferences.getInstance();
         var accessToken = prefs.getString('access');
         String bearerAuth = "Bearer $accessToken";
-        var updateUpstreamEndpoint = "${cpimsApiUrl}mobile/record_saved";
+        var updateUpstreamEndpoint = "${cpimsProdApiUrl}mobile/record_saved";
         var response = await dio.post(
           updateUpstreamEndpoint,
           data: {

@@ -1,5 +1,6 @@
 import 'package:cpims_mobile/Models/case_load_model.dart';
 import 'package:cpims_mobile/Models/statistic_model.dart';
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:cpims_mobile/providers/ui_provider.dart';
 import 'package:cpims_mobile/screens/cpara/model/detail_model.dart';
 import 'package:cpims_mobile/screens/cpara/provider/cpara_provider.dart';
@@ -779,7 +780,7 @@ class ApiService {
   static Future<CparaOvcDetails> fetchOvcDetails(
       String token, String ovcCpimsId) async {
     final response = await http.get(
-      Uri.parse('https://dev.cpims.net/api/form/CPR/?ovc_cpims_id=$ovcCpimsId'),
+      Uri.parse('$cpimsProdApiUrl/form/CPR/?ovc_cpims_id=$ovcCpimsId'),
       headers: {'Authorization': 'Bearer $token'},
     );
 

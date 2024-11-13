@@ -206,11 +206,8 @@ List drawerOptions(BuildContext context) {
       'title': 'Profile',
       'icon': FontAwesomeIcons.user,
       'children': [],
-      'onTap': () => {
-            Get.off(() => const ProfileScreen(),
-                transition: Transition.fadeIn,
-                duration: const Duration(milliseconds: 1000))
-          },
+      'onTap': () =>
+          {Navigator.of(context).pop(), Get.to(() => const ProfileScreen())},
     },
     {
       'title': 'Log Out',

@@ -1,5 +1,6 @@
 import 'package:cpims_mobile/Models/caseplan_form_model.dart';
 import 'package:cpims_mobile/Models/unapproved_caseplan_form_model.dart';
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,7 +72,7 @@ class UnapprovedCptProvider {
         var accessToken = prefs.getString('access');
         String bearerAuth = "Bearer $accessToken";
         var response = await dio.post(
-          "${cpimsApiUrl}mobile/record_saved",
+          "${cpimsProdApiUrl}mobile/record_saved",
           options: Options(headers: {"Authorization": bearerAuth}),
           data: {
             "record_id": unapprovedCasePlan.formUuid,
@@ -167,7 +168,8 @@ class UnapprovedCptProvider {
     }
   }
 
-  Future<bool> deleteUnapprovedCasePlanDataByUuid(Database db, String uuid) async {
+  Future<bool> deleteUnapprovedCasePlanDataByUuid(
+      Database db, String uuid) async {
     try {
       final formQuery = await db.query(
         'unapproved_cpt',

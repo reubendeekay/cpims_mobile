@@ -62,22 +62,22 @@ class _Form1BScreen extends State<Form1BScreen> {
     });
   }
 
-  bool isFormInvalid() {
-    Form1bProvider form1bProvider =
-        Provider.of<Form1bProvider>(context, listen: false);
-    // Check if the date is filled
-    bool isDateValid = (form1bProvider.formData.selectedDate != null ||
-        !form1bProvider.formData.selectedDate.isBlank!);
+  // bool isFormInvalid() {
+  //   Form1bProvider form1bProvider =
+  //       Provider.of<Form1bProvider>(context, listen: false);
+  //   // Check if the date is filled
+  //   bool isDateValid = (form1bProvider.formData.selectedDate != null ||
+  //       form1bProvider.formData.selectedDate.isBlank!);
 
-    // Check if all selected services are valid
-    bool areServicesValid =
-        (!form1bProvider.formData.selectedServices.isBlank! &&
-            !form1bProvider.safeFormData.selectedServices.isBlank! &&
-            !form1bProvider.stableFormData.selectedServices.isBlank! &&
-            !form1bProvider.criticalEventDataForm1b.selectedEvents.isBlank!);
+  //   // Check if all selected services are valid
+  //   bool areServicesValid =
+  //       (form1bProvider.formData.selectedServices.isBlank! &&
+  //           form1bProvider.safeFormData.selectedServices.isBlank! &&
+  //           form1bProvider.stableFormData.selectedServices.isBlank! &&
+  //           form1bProvider.criticalEventDataForm1b.selectedEvents.isBlank!);
 
-    return !(isDateValid && areServicesValid);
-  }
+  //   return (isDateValid && areServicesValid);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +85,14 @@ class _Form1BScreen extends State<Form1BScreen> {
     Form1bProvider form1bProvider =
         Provider.of<Form1bProvider>(context, listen: false);
 
-    // bool isFormInvalid() {
-    //   return ((form1bProvider.formData.selectedDate == null ||
-    //           form1bProvider.formData.selectedDate == '') &&
-    //       (form1bProvider.formData.selectedServices.isBlank! &&
-    //           form1bProvider.safeFormData.selectedServices.isBlank! &&
-    //           form1bProvider.stableFormData.selectedServices.isBlank! &&
-    //           form1bProvider.criticalEventDataForm1b.selectedEvents.isBlank!));
-    // }
+    bool isFormInvalid() {
+      return ((form1bProvider.formData.selectedDate == null ||
+              form1bProvider.formData.selectedDate == '') &&
+          (form1bProvider.formData.selectedServices.isBlank! &&
+              form1bProvider.safeFormData.selectedServices.isBlank! &&
+              form1bProvider.stableFormData.selectedServices.isBlank! &&
+              form1bProvider.criticalEventDataForm1b.selectedEvents.isBlank!));
+    }
 
     return Scaffold(
       appBar: customAppBar(),

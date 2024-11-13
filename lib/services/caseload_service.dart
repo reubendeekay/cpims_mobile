@@ -1,5 +1,6 @@
 import 'package:cpims_mobile/Models/case_load_model.dart';
-import 'package:cpims_mobile/constants.dart';
+import 'package:cpims_mobile/constants.dart' as consts;
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:cpims_mobile/providers/db_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -70,7 +71,7 @@ class CaseLoadService {
 
     final dio = Dio();
     final options = BaseOptions(
-      baseUrl: cpimsApiUrl,
+      baseUrl: cpimsProdApiUrl,
       headers: {
         'Authorization': 'Bearer ${preferences.getString('access')}',
       },
@@ -79,8 +80,8 @@ class CaseLoadService {
     dio.interceptors.add(LogInterceptor());
 
     try {
-      final Response response = await dio
-          .get('api/caseload', queryParameters: {'deviceID': deviceID});
+      final Response response =
+          await dio.get('api/caseload', queryParameters: {'deviceID': deviceID});
 
       int statusCode = response.statusCode ?? 0;
 
@@ -132,7 +133,7 @@ class CaseLoadService {
     final preferences = await SharedPreferences.getInstance();
     final dio = Dio();
     final options = BaseOptions(
-      baseUrl: cpimsApiUrl,
+      baseUrl: cpimsProdApiUrl,
       headers: {
         'Authorization': 'Bearer ${preferences.getString('access')}',
       },
@@ -141,8 +142,8 @@ class CaseLoadService {
     dio.interceptors.add(LogInterceptor());
 
     try {
-      final Response response =
-          await dio.get('api/caseload', queryParameters: {'deviceID': deviceID});
+      final Response response = await dio
+          .get('caseload', queryParameters: {'deviceID': deviceID});
 
       if (response.statusCode == 200) {
         final List<CaseLoadModel> caseLoadModelList = (response.data as List)

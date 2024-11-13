@@ -45,14 +45,13 @@ class CparaFormsScreen extends StatefulWidget {
 
   final CaseLoadModel caseLoadModel;
 
-  const CparaFormsScreen({
-    super.key,
-    required this.caseLoadModel,
-    this.isRejected = false,
-    this.rejectedMessage = "",
-    this.formId = "",
-    this.cpmisID = ""
-  });
+  const CparaFormsScreen(
+      {super.key,
+      required this.caseLoadModel,
+      this.isRejected = false,
+      this.rejectedMessage = "",
+      this.formId = "",
+      this.cpmisID = ""});
 
   @override
   State<CparaFormsScreen> createState() => _CparaFormsScreenState();
@@ -158,14 +157,13 @@ class _CparaFormsScreenState extends State<CparaFormsScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 15.0),
                       child: Container(
-                        padding: const EdgeInsets.all(10),
-                        width: double.infinity,
-                        color: Colors.red,
-                        child: Text(
-                          widget.rejectedMessage,
-                          style: const TextStyle(color: Colors.white),
-                        )
-                      ),
+                          padding: const EdgeInsets.all(10),
+                          width: double.infinity,
+                          color: Colors.red,
+                          child: Text(
+                            widget.rejectedMessage,
+                            style: const TextStyle(color: Colors.white),
+                          )),
                     ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
@@ -302,128 +300,172 @@ class _CparaFormsScreenState extends State<CparaFormsScreen> {
                                             .updateHealthModel(healthModel);
                                       }
 
-                                        String? ovsId;
-                                        if (widget.isRejected == true) {
-                                          ovsId = widget.cpmisID;
-                                        } else {
-                                          ovsId = cparaProvider
-                                              .caseLoadModel?.cpimsId;
-                                        }
+                                      String? ovsId;
+                                      if (widget.isRejected == true) {
+                                        ovsId = widget.cpmisID;
+                                      } else {
+                                        ovsId = cparaProvider
+                                            .caseLoadModel?.cpimsId;
+                                      }
 
-                                        if (ovsId == null) {
-                                          throw ("No CPMSID found");
-                                        }
+                                      if (ovsId == null) {
+                                        throw ("No CPMSID found");
+                                      }
 
-                                        // Show signature
-                                        Uint8List blob = await showDialog(
+                                      // Show signature
+                                      Uint8List blob = await showDialog(
                                           barrierDismissible: false,
                                           context: context,
                                           builder: (context) {
-                                            return Center(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Signature(
-                                                    controller: _signature_controller,
-                                                    height: 300,
-                                                    width: 350,
-                                                    backgroundColor: Colors.grey[200]!,
+                                            return SimpleDialog(
+                                              backgroundColor: Colors.white,
+                                              title: const Text('Sign below'),
+                                              titleTextStyle: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  color: Colors.black),
+                                              children: [
+                                                Center(
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Signature(
+                                                        controller:
+                                                            _signature_controller,
+                                                        height: 300,
+                                                        width: 300,
+                                                        backgroundColor:
+                                                            Colors.grey[200]!,
+                                                      ),
+                                                      Container(
+                                                        width: 300,
+                                                        color: Colors.white,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 20),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
+                                                            TextButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                var signatureData =
+                                                                    await exportSignature();
+                                                                if (context
+                                                                    .mounted) {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop(
+                                                                          signatureData);
+                                                                }
+                                                              },
+                                                              child: Text(
+                                                                "Done",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .blue,
+                                                                    fontSize:
+                                                                        16.sp),
+                                                              ),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                setState(() =>
+                                                                    _signature_controller
+                                                                        .clear());
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              child: Text(
+                                                                "Clear",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16.sp,
+                                                                    color: Colors
+                                                                        .red),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
-                                                  Container(
-                                                    width: 350,
-                                                    color: Colors.white,
-                                                    padding: const EdgeInsets.symmetric(vertical: 20),
-                                                    child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                      children: [
-                                                        TextButton(onPressed: () async{
-                                                          var signatureData = await exportSignature();
-                                                          if (context.mounted) {
-                                                            Navigator.of(context).pop(signatureData);
-                                                          }
-                                                        }, child: Text(
-                                                          "Done",
-                                                          style: TextStyle(
-                                                            color: Colors.blue,
-                                                            fontSize: 16.sp
-                                                          ),
-                                                        )),
-                                                        TextButton(onPressed: (){
-                                                          setState(() => _signature_controller.clear());
-                                                        }, child: Text(
-                                                            "Clear",
-                                                          style: TextStyle(
-                                                            fontSize: 16.sp,
-                                                            color: Colors.red
-                                                          ),
-                                                        ))
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             );
-                                          }
-                                        );
+                                          });
                                       setState(() {
                                         isLoading = true;
                                       });
-                                        String ovcpmisid = ovsId;
-                                        // Insert to db
-                                        CparaModel cparaModelDB = CparaModel(
+                                      String ovcpmisid = ovsId;
+                                      // Insert to db
+                                      CparaModel cparaModelDB = CparaModel(
                                           detail: detailModel,
                                           safe: safeModel,
                                           stable: stableModel,
                                           schooled: schooledModel,
                                           health: (healthModel),
                                           ovcSubPopulations: cparaOvcSub,
-                                          uuid: cparaProvider.cparaModel?.uuid ?? ""
-                                        );
-                                        // Create form
-                                        String startTime = context.read<AppMetaDataProvider>().startTimeInterview ?? DateTime.now().toIso8601String();
-                                        await LocalDb.instance.insertCparaData(
-                                            cparaModelDB: cparaModelDB,
-                                            ovcId: ovcpmisid,
-                                            startTime: startTime,
-                                            isRejected: widget.isRejected,
-                                            signature: blob,
-                                            careProviderId: ovcpmisid,
-                                            caregiverCpimsId: widget.caseLoadModel.caregiverCpimsId ?? "",
-                                        );
+                                          uuid:
+                                              cparaProvider.cparaModel?.uuid ??
+                                                  "");
+                                      // Create form
+                                      String startTime = context
+                                              .read<AppMetaDataProvider>()
+                                              .startTimeInterview ??
+                                          DateTime.now().toIso8601String();
+                                      await LocalDb.instance.insertCparaData(
+                                        cparaModelDB: cparaModelDB,
+                                        ovcId: ovcpmisid,
+                                        startTime: startTime,
+                                        isRejected: widget.isRejected,
+                                        signature: blob,
+                                        careProviderId: ovcpmisid,
+                                        caregiverCpimsId: widget.caseLoadModel
+                                                .caregiverCpimsId ??
+                                            "",
+                                      );
 
-                                        if (context.mounted) {
-                                          if(widget.isRejected){
-                                            context.read<UnapprovedRecordsScreenProvider>().updateUnnapprovedCparas();
-                                          }
-                                          cparaProvider.clearCparaProvider();
+                                      if (context.mounted) {
+                                        if (widget.isRejected) {
                                           context
-                                              .read<StatsProvider>()
-                                              .updateCparaFormStats();
-                                          context
-                                              .read<StatsProvider>()
-                                              .updateCparaDistinctStats();
-                                           //navigate back
-                                          Get.snackbar(
-                                            'Success',
-                                            'Successfully saved CPARA form',
-                                            backgroundColor: Colors.green,
-                                            colorText: Colors.white,
-                                          );
-                                          setState(() {
-                                            isLoading = false;
-                                          });
-                                          Navigator.pop(context);
+                                              .read<
+                                                  UnapprovedRecordsScreenProvider>()
+                                              .updateUnnapprovedCparas();
                                         }
+                                        cparaProvider.clearCparaProvider();
+                                        context
+                                            .read<StatsProvider>()
+                                            .updateCparaFormStats();
+                                        context
+                                            .read<StatsProvider>()
+                                            .updateCparaDistinctStats();
+                                        //navigate back
+                                        Get.snackbar(
+                                          'Success',
+                                          'Successfully saved CPARA form',
+                                          backgroundColor: Colors.green,
+                                          colorText: Colors.white,
+                                        );
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                        Navigator.pop(context);
+                                      }
                                     } catch (e) {
                                       setState(() {
                                         isLoading = false;
                                       });
-                                      if(e.toString() == locationDisabled || e.toString() == locationDenied){
-                                        if(context.mounted) {
+                                      if (e.toString() == locationDisabled ||
+                                          e.toString() == locationDenied) {
+                                        if (context.mounted) {
                                           locationMissingDialog(context);
                                         }
-                                      }
-                                      else {
+                                      } else {
                                         Get.snackbar(
                                           'Error',
                                           e.toString(),
@@ -640,11 +682,10 @@ class _CparaFormsScreenState extends State<CparaFormsScreen> {
         detailModel.hasPregnantOrBreastfeedingWoman == null ||
         detailModel.dateOfAssessment == null) {
       throw ("Please fill all mandatory fields in Details section.");
-    }
-    else if ((detailModel.isFirstAssessment?.toLowerCase() == "no" &&
+    } else if ((detailModel.isFirstAssessment?.toLowerCase() == "no" &&
         detailModel.dateOfLastAssessment != null &&
-        DateTime.parse(detailModel.dateOfLastAssessment!).isAfter(DateTime.parse(detailModel.dateOfAssessment!))
-    )) {
+        DateTime.parse(detailModel.dateOfLastAssessment!)
+            .isAfter(DateTime.parse(detailModel.dateOfAssessment!)))) {
       throw ("The last assessment date cannot be ahead of the date of this assessment.");
     }
     // else if (detailModel.isChildHeaded == null ||
@@ -689,14 +730,13 @@ class _CparaFormsScreenState extends State<CparaFormsScreen> {
     }
     // todo: 5. validate safe details using safe model
     else if (
-    // safe.question1 == null ||
-    //     safe.question2 == null ||
+        // safe.question1 == null ||
+        //     safe.question2 == null ||
         safe.question3 == null ||
-        safe.question4 == null
-    ||
-        safe.question5 == null ||
-        safe.question6 == null ||
-        safe.question7 == null
+            safe.question4 == null ||
+            safe.question5 == null ||
+            safe.question6 == null ||
+            safe.question7 == null
         // safe.childrenQuestions == null
         // // || safe.overallQuestion1 == null || safe.overallQuestion2 == null
         // ||

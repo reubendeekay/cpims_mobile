@@ -1,3 +1,4 @@
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:cpims_mobile/providers/cpara/read_unapproved_cpara_from_db.dart';
 import 'package:cpims_mobile/providers/cpara/unapproved_cpara_database.dart';
 import 'package:cpims_mobile/screens/cpara/model/cpara_question_ids.dart';
@@ -234,7 +235,7 @@ class UnapprovedCparaService {
         responseData = {"record_id": formID, "saved": 0, "form_type": formType};
       }
 
-      var response = await dio.post("$cpimsApiUrl$baseUrl",
+      var response = await dio.post("$cpimsProdApiUrl$baseUrl",
           data: responseData,
           options: Options(headers: {"Authorization": bearerAuth}));
     } catch (err) {

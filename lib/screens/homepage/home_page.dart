@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:cpims_mobile/Models/statistic_model.dart';
-import 'package:cpims_mobile/constants.dart';
+import 'package:cpims_mobile/constants.dart' as consts;
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:cpims_mobile/providers/connection_provider.dart';
 import 'package:cpims_mobile/providers/ui_provider.dart';
 import 'package:cpims_mobile/screens/caregiver/caregiver.dart';
@@ -92,7 +93,7 @@ class _HomepageState extends State<Homepage> {
       print("The payload is $payload");
       try {
         const cptEndpoint = "mobile/cpt/";
-        var response = await dio.post("$cpimsApiUrl$cptEndpoint",
+        var response = await dio.post("$cpimsProdApiUrl$cptEndpoint",
             data: payload,
             options: Options(headers: {"Authorization": bearerAuth}));
 
@@ -181,7 +182,7 @@ class _HomepageState extends State<Homepage> {
         debugPrint("The hmf form data is ${jsonEncode(formData)}");
         try {
           final response =
-              await dio.post('${cpimsApiUrl}mobile/hmf/', data: formData);
+              await dio.post('${cpimsProdApiUrl}mobile/hmf/', data: formData);
           if (kDebugMode) {
             print(response.toString());
           }
@@ -224,7 +225,7 @@ class _HomepageState extends State<Homepage> {
         debugPrint("The form data is ${jsonEncode(formData)}");
         try {
           final response =
-              await dio.post('${cpimsApiUrl}mobile/hrs/', data: formData);
+              await dio.post('${cpimsProdApiUrl}mobile/hrs/', data: formData);
           if (kDebugMode) {
             print(response.toString());
           }
@@ -267,9 +268,8 @@ class _HomepageState extends State<Homepage> {
         debugPrint("The graduation data is ${jsonEncode(formData)}");
         String cpimsId = formData['ovc_cpims_id'];
         try {
-          final response = await dio.post(
-              '${cpimsApiUrl}mobile/grad_monitor/',
-              data: formData);
+          final response = await dio
+              .post('${cpimsProdApiUrl}mobile/grad_monitor/', data: formData);
           if (kDebugMode) {
             print(response.toString());
           }
@@ -678,7 +678,7 @@ class _HomepageState extends State<Homepage> {
             AlertDialog(
               title: const Text("Session Expired"),
               content:
-              const Text("Your session has expired. Please log in again"),
+                  const Text("Your session has expired. Please log in again"),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -716,5 +716,4 @@ class _HomepageState extends State<Homepage> {
       Get.closeAllSnackbars();
     }
   }
-
 }

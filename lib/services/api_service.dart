@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:cpims_mobile/constants.dart';
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
-  final String _url = cpimsApiUrl;
+  final String _url = cpimsProdApiUrl;
 
   get getAccess => null;
 

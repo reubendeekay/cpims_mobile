@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:cpims_mobile/providers/db_provider.dart';
 import 'package:cpims_mobile/screens/initial_loader.dart';
 import 'package:cpims_mobile/screens/locked_screen.dart';
@@ -7,7 +8,7 @@ import 'package:cpims_mobile/widgets/logout_dialog.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cpims_mobile/Models/user_model.dart';
-import 'package:cpims_mobile/constants.dart';
+import 'package:cpims_mobile/constants.dart' as consts;
 import 'package:cpims_mobile/providers/http_response_handler.dart';
 import 'package:cpims_mobile/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
   static const String _lockAppPrefKey = '_lockAppPrefKey';
-  static const String _authRefreshTokenTimeStampKey = 'authRefreshTokenTimeStampKey';
+  static const String _authRefreshTokenTimeStampKey =
+      'authRefreshTokenTimeStampKey';
   static const String authTokenTimeStampKey = 'authTokenTimestampKey';
   static const int _refreshTokenExpiryDurationMilli = 1000 * 3600 * 24 * 12;
   static const int authTokenMaxOfflineLoginTimeLimit = 1000 * 3600 * 24 * 30;
@@ -72,7 +74,7 @@ class AuthProvider with ChangeNotifier {
 
     final http.Response response = await http.post(
       Uri.parse(
-        '${cpimsApiUrl}api/token/',
+        '${cpimsProdApiUrl}api/token/',
       ),
       body: {
         'username': username,
@@ -85,8 +87,7 @@ class AuthProvider with ChangeNotifier {
         errorSnackBar(context, 'Not authorized to view this resource');
         await LocalDb.instance.deleteDb();
         AuthProvider.setAppLock(true);
-        Get.off(() =>
-        const LockedScreen());
+        Get.off(() => const LockedScreen());
       }
       return;
     }
@@ -171,13 +172,16 @@ class AuthProvider with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       String? refreshToken = prefs.getString('refresh');
       int? authTokenTimestamp = prefs.getInt(authTokenTimeStampKey);
-      int? authRefreshTokenTimestamp = prefs.getInt(_authRefreshTokenTimeStampKey);
-      if (refreshToken != null && authTokenTimestamp != null && authRefreshTokenTimestamp != null) {
-
+      int? authRefreshTokenTimestamp =
+          prefs.getInt(_authRefreshTokenTimeStampKey);
+      if (refreshToken != null &&
+          authTokenTimestamp != null &&
+          authRefreshTokenTimestamp != null) {
         int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
         int tokenExpiryDuration =
             1800 * 1000; // Token expires after 30 minutes (in milliseconds)
-        if (currentTimestamp - authRefreshTokenTimestamp > _refreshTokenExpiryDurationMilli) {
+        if (currentTimestamp - authRefreshTokenTimestamp >
+            _refreshTokenExpiryDurationMilli) {
           clearUser();
           return false;
         }
@@ -187,7 +191,7 @@ class AuthProvider with ChangeNotifier {
           // get new token
           final http.Response response = await http.post(
             Uri.parse(
-              '${cpimsApiUrl}api/token/refresh/',
+              '${cpimsProdApiUrl}api/token/refresh/',
             ),
             body: {
               'refresh': refreshToken,

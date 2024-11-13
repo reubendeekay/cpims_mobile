@@ -81,11 +81,11 @@ class SummaryDataModel {
       orgUnitId: json['org_unit_id'],
       details: json['details'],
       userOrgUnits: json['user_org_units'] ?? "N/A",
-      username: json['username'],
-      userCpimsId: json['user_cpims_id'],
-      email: json['email'],
-      ward: json['wards'],
-      subCounties: json['sub_counties'],
+      username: json['username'] ?? "",
+      userCpimsId: json['user_cpims_id'] ?? 0,
+      email: json['email'] ?? "",
+      ward: json['wards'] ?? "",
+      subCounties: json['sub_counties'] ?? "",
       caseloadOvc: json['caseload_ovc'] ?? 0,
       caseloadHh: json['caseload_hh'] ?? 0,
       caseloadClhiv: json['caseload_clhiv'] ?? 0,
@@ -156,8 +156,7 @@ class SummaryDataModel {
         'caseload_ovc: $caseloadOvc,'
         'caseload_hh: $caseloadHh,'
         'caseload_clhiv: $caseloadClhiv,'
-        'caseload_hei: $caseloadHei}'
-    ;
+        'caseload_hei: $caseloadHei}';
   }
 }
 

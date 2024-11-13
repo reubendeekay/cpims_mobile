@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cpims_mobile/Models/caseplan_form_model.dart';
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:cpims_mobile/providers/db_provider.dart';
 import 'package:cpims_mobile/screens/cpara/model/db_model.dart';
 import 'package:cpims_mobile/screens/cpara/provider/db_util.dart';
@@ -89,7 +90,7 @@ class SyncUpstreamImpl implements SyncUpstream {
       var payload = caseplan.toJson();
       try {
         const cptEndpoint = "mobile/cpt/";
-        var response = await dio.post("$cpimsApiUrl$cptEndpoint",
+        var response = await dio.post("$cpimsProdApiUrl$cptEndpoint",
             data: payload,
             options: Options(headers: {"Authorization": bearerAuth}));
 
@@ -128,8 +129,8 @@ class SyncUpstreamImpl implements SyncUpstream {
         for (var formData in forms) {
           var response = await Form1Service.postFormRemote(
             formData,
-            formType['endpoint']!,
-            accessToken!,
+            formType['endpoint'] ?? '',
+            accessToken,
           );
           if (response.statusCode == 201) {
             debugPrint("Data to sync is $formData");
@@ -169,7 +170,7 @@ class SyncUpstreamImpl implements SyncUpstream {
         debugPrint("The form data is ${jsonEncode(formData)}");
         try {
           final response =
-              await dio.post('${cpimsApiUrl}mobile/hrs/', data: formData);
+              await dio.post('${cpimsProdApiUrl}mobile/hrs/', data: formData);
           if (kDebugMode) {
             print(response.toString());
           }
@@ -211,7 +212,7 @@ class SyncUpstreamImpl implements SyncUpstream {
         debugPrint("The hmf form data is ${jsonEncode(formData)}");
         try {
           final response =
-              await dio.post('${cpimsApiUrl}mobile/hmf/', data: formData);
+              await dio.post('${cpimsProdApiUrl}mobile/hmf/', data: formData);
           if (kDebugMode) {
             print(response.toString());
           }
@@ -253,8 +254,8 @@ class SyncUpstreamImpl implements SyncUpstream {
       for (final formData in queryResults) {
         debugPrint("The graduation data is ${jsonEncode(formData)}");
         try {
-          final response = await dio.post('${cpimsApiUrl}mobile/grad_monitor/',
-              data: formData);
+          final response = await dio
+              .post('${cpimsProdApiUrl}mobile/grad_monitor/', data: formData);
           if (kDebugMode) {
             print(response.toString());
           }

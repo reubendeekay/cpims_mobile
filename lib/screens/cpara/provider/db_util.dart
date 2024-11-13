@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:cpims_mobile/constants.dart';
+import 'package:cpims_mobile/constants.dart' as consts;
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:cpims_mobile/screens/cpara/cpara_util.dart';
 import 'package:cpims_mobile/screens/cpara/model/db_model.dart';
 import 'package:cpims_mobile/utils/app_form_metadata.dart';
@@ -312,7 +313,7 @@ Future<void> singleCparaFormSubmission(
 
   dio.interceptors.add(LogInterceptor());
   const cparaUrl = "mobile/cpara/";
-  var response = await dio.post("$cpimsApiUrl$cparaUrl",
+  var response = await dio.post("$cpimsProdApiUrl$cparaUrl",
       data: cparaMapData,
       options: Options(
           contentType: 'application/json',
@@ -411,7 +412,7 @@ Future<Response> ovcSubPopulationPostOvcToServer(
   dio.interceptors.add(LogInterceptor());
   try {
     final response = await dio.post(
-      "$cpimsApiUrl$cparaUrl",
+      "$cpimsProdApiUrl$cparaUrl",
       data: data,
       options: Options(
         headers: {

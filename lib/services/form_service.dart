@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:cpims_mobile/Models/caseplan_form_model.dart';
 import 'package:cpims_mobile/Models/form_1_model.dart';
+import 'package:cpims_mobile/constants_prod.dart';
 import 'package:cpims_mobile/providers/db_provider.dart';
 import 'package:cpims_mobile/services/api_service.dart';
 import 'package:dio/dio.dart';
@@ -306,7 +307,7 @@ class Form1Service {
   // send form to server
   static Future<Response> postFormRemote(
       formData, String formType, String authToken) async {
-    String formEndpointMobile = "${cpimsApiUrl}mobile/form/$formType/";
+    String formEndpointMobile = "${cpimsProdApiUrl}mobile/form/$formType/";
     return _postForm(formData, formEndpointMobile, authToken);
   }
 }
